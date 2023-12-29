@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.project.adersh.sampleshoppingapp.R
@@ -20,12 +20,17 @@ class CustomAdapter(
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val textView: TextView
-        val imageView: ImageView
+        val productName: TextView
+        val productPrice: TextView
+        val productPRating: RatingBar
+        val productImage: ImageView
+
 
         init {
-            textView = itemView.findViewById(R.id.name)
-            imageView = itemView.findViewById(R.id.img)
+            productName = itemView.findViewById(R.id.product_name)
+            productPrice = itemView.findViewById(R.id.product_price)
+            productPRating = itemView.findViewById(R.id.product_rating)
+            productImage = itemView.findViewById(R.id.product_image)
         }
 
     }
@@ -43,8 +48,10 @@ class CustomAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.textView.text = dataSet.get(position).title
-        Glide.with(context).load(dataSet.get(position).image).into(holder.imageView)
+        holder.productName.text = dataSet.get(position).title
+        holder.productPrice.text = dataSet.get(position).price.toString()
+        holder.productPRating.rating = dataSet.get(position).rating.rate.toFloat()
+        Glide.with(context).load(dataSet.get(position).image).into(holder.productImage)
 
     }
 
