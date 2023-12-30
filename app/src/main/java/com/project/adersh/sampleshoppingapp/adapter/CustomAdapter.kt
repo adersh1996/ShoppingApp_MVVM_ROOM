@@ -1,6 +1,9 @@
 package com.project.adersh.kotlinmvvm_demo.adapter
 
 import android.content.Context
+import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +12,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.project.adersh.sampleshoppingapp.ProductDetailsActivity
 import com.project.adersh.sampleshoppingapp.R
 import com.project.adersh.sampleshoppingapp.model.Products
 
@@ -52,6 +56,12 @@ class CustomAdapter(
         holder.productPrice.text = dataSet.get(position).price.toString()
         holder.productPRating.rating = dataSet.get(position).rating.rate.toFloat()
         Glide.with(context).load(dataSet.get(position).image).into(holder.productImage)
+        holder.itemView.setOnClickListener {
+            val intent =Intent(context, ProductDetailsActivity::class.java)
+            intent.putExtra("product_id",dataSet.get(position).id)
+            intent.flags = FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(intent)
+        }
 
     }
 

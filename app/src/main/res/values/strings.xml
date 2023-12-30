@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SampleShoppingApp</string>
+    <string name="product_details">A product detail page (PDP) is a web page on an eCommerce site that presents the description of a specific product in view. The details displayed often include size, color, price, shipping information, reviews, and other relevant information customers may want to know before making a purchase.</string>
 </resources>

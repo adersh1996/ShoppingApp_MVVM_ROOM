@@ -1,46 +1,50 @@
 package com.project.adersh.sampleshoppingapp
 
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.project.adersh.kotlinmvvm_demo.adapter.CustomAdapter
 import com.project.adersh.sampleshoppingapp.api.ApiInterface
 import com.project.adersh.sampleshoppingapp.api.ApiUtilities
+import com.project.adersh.sampleshoppingapp.databinding.ActivityMainBinding
+import com.project.adersh.sampleshoppingapp.databinding.ActivityProductDetailsBinding
 import com.project.adersh.sampleshoppingapp.repository.MainRepository
 import com.project.adersh.sampleshoppingapp.viewmodel.MainViewModel
 import com.project.adersh.sampleshoppingapp.viewmodel.MyViewModelFactory
 
-class MainActivity : AppCompatActivity() {
+class ProductDetailsActivity : AppCompatActivity() {
 
-    private lateinit var productRecyclerView: RecyclerView
+    private lateinit var binding: ActivityProductDetailsBinding
     private lateinit var mainViewModel: MainViewModel
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        productRecyclerView = findViewById(R.id.products_recycler_view)
+        binding = ActivityProductDetailsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val apiInterface = ApiUtilities.getInstance().create(ApiInterface::class.java)
         val mainRepository = MainRepository(apiInterface)
+
+        val productId:Int = intent.getIntExtra("product_id",0)
 
         mainViewModel = ViewModelProvider(
             this,
             MyViewModelFactory(mainRepository)
         ).get(MainViewModel::class.java)
 
-        mainViewModel.getProductsData()
+        mainViewModel.getProductsDetails(productId)
 
-        mainViewModel.products.observe(this) {
+        mainViewModel.productDetails.observe(this) {
 
-            val customAdapter = CustomAdapter(applicationContext, it)
-            productRecyclerView.adapter = customAdapter
+            binding.productPrice.setText(it.price.toString())
+            binding.productName.setText(it.title)
+            binding.productCategory.setText(it.category)
+            binding.productDetails.setText(it.description)
+            Glide.with(applicationContext).load(it.image).into(binding.productImage)
+
 
 
         }
-
 
     }
 }
