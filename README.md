@@ -1,0 +1,1 @@
+The Sample Shopping App is an Android application developed in Kotlin, utilizing the MVVM architectural pattern. This app showcases a list of products and detailed views of each product, integrating two fake store APIs. It also features offline caching capabilities using Room Database, ensuring a smooth user experience even without an internet connection.
