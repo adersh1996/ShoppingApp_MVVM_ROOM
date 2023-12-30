@@ -5,9 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.project.adersh.kotlinmvvm_demo.adapter.CustomAdapter
-import com.project.adersh.sampleshoppingapp.api.ApiInterface
-import com.project.adersh.sampleshoppingapp.api.ApiUtilities
-import com.project.adersh.sampleshoppingapp.repository.MainRepository
 import com.project.adersh.sampleshoppingapp.viewmodel.MainViewModel
 import com.project.adersh.sampleshoppingapp.viewmodel.MyViewModelFactory
 
@@ -23,12 +20,11 @@ class MainActivity : AppCompatActivity() {
 
         productRecyclerView = findViewById(R.id.products_recycler_view)
 
-        val apiInterface = ApiUtilities.getInstance().create(ApiInterface::class.java)
-        val mainRepository = MainRepository(apiInterface)
+        val repository = (application as MyApplication).mainRepository
 
         mainViewModel = ViewModelProvider(
             this,
-            MyViewModelFactory(mainRepository)
+            MyViewModelFactory(repository)
         ).get(MainViewModel::class.java)
 
         mainViewModel.getProductsData()

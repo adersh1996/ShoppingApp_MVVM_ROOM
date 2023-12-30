@@ -22,14 +22,14 @@ class ProductDetailsActivity : AppCompatActivity() {
         binding = ActivityProductDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val apiInterface = ApiUtilities.getInstance().create(ApiInterface::class.java)
-        val mainRepository = MainRepository(apiInterface)
+        val repository = (application as MyApplication).mainRepository
+
 
         val productId:Int = intent.getIntExtra("product_id",0)
 
         mainViewModel = ViewModelProvider(
             this,
-            MyViewModelFactory(mainRepository)
+            MyViewModelFactory(repository)
         ).get(MainViewModel::class.java)
 
         mainViewModel.getProductsDetails(productId)
